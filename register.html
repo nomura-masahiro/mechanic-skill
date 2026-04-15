@@ -4,126 +4,126 @@
   <meta charset="UTF-8">
   <title>整備士スキル登録</title>
 
-<style>
-  .success {
-    color: green;
-    font-weight: bold;
-  }
-  .error {
-    color: red;
-    font-weight: bold;
-  }
-</style>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      padding: 40px;
+    }
 
+    h1 {
+      text-align: center;
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4a90e2;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #357abd;
+    }
+
+    #message {
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
 </head>
 <body>
 
 <h1>整備士スキル登録</h1>
 
-<!-- ★登録完了・エラーメッセージ表示エリア -->
-<div id="message"></div>
+<div class="form-container">
 
-<form id="skillForm">
-  <div>
-    <label>名前：</label>
-    <input type="text" id="name">
-  </div>
+  <div id="message"></div>
 
-  <div>
-    <label>対応メーカー：</label>
-    <input type="text" id="maker">
-  </div>
+  <form id="skillForm">
+    <div class="form-group">
+      <label for="name">名前</label>
+      <input type="text" id="name">
+    </div>
 
-  <div>
-    <label>対応車種：</label>
-    <input type="text" id="carType">
-  </div>
+    <div class="form-group">
+      <label for="maker">対応メーカー</label>
+      <input type="text" id="maker">
+    </div>
 
-  <div>
-    <label>資格：</label>
-    <input type="text" id="license">
-  </div>
+    <div class="form-group">
+      <label for="carType">対応車種</label>
+      <input type="text" id="carType">
+    </div>
 
-  <div>
-    <label>経験年数：</label>
-    <input type="number" id="experience">
-  </div>
+    <div class="form-group">
+      <label for="license">資格</label>
+      <input type="text" id="license">
+    </div>
 
-  <div>
-    <label>連絡先：</label>
-    <input type="email" id="contact">
-  </div>
+    <div class="form-group">
+      <label for="experience">経験年数</label>
+      <input type="number" id="experience">
+    </div>
 
-<button type="submit" id="submitBtn">登録</button>
-</form>
+    <div class="form-group">
+      <label for="contact">連絡先</label>
+      <input type="email" id="contact">
+    </div>
 
+    <button type="submit" id="submitBtn">登録</button>
+  </form>
 
-<!-- ★ JavaScript は必ずここ -->
+</div>
+
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzsq6z295DQwLoei5M_EfbDtW2NExWsVvwGTKIE6MgcAXYhRsxmDLvN4I47hlrzyXKp/exec"; // ←自分のURL
-
-const form = document.getElementById("skillForm");
-const message = document.getElementById("message");
-const submitBtn = document.getElementById("submitBtn");
-
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-  message.textContent = "";
-  message.className = "";
-
-  // 入力値取得
-  const data = {
-    name: document.getElementById("name").value.trim(),
-    maker: document.getElementById("maker").value.trim(),
-    carType: document.getElementById("carType").value.trim(),
-    license: document.getElementById("license").value.trim(),
-    experience: document.getElementById("experience").value.trim(),
-    contact: document.getElementById("contact").value.trim()
-  };
-
-  // ✅ 未入力チェック
-  for (const key in data) {
-    if (!data[key]) {
-      message.textContent = "未入力の項目があります。すべて入力してください。";
-      message.className = "error";
-      return;
-    }
-  }
-
-  // ✅ メール形式チェック
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(data.contact)) {
-    message.textContent = "メールアドレスの形式が正しくありません。";
-    message.className = "error";
-    return;
-  }
-
-  // ✅ ローディング表示
-  submitBtn.disabled = true;
-  submitBtn.textContent = "送信中...";
-
-  fetch(GAS_URL, {
-    method: "POST",
-    body: JSON.stringify(data)
-  })
-.then(() => {
-  message.textContent = "✅ 登録が完了しました。一覧画面へ移動します…";
-  message.className = "success";
-
-  // 1.5秒後に一覧画面へ遷移
-  setTimeout(() => {
-    location.href = "list.html";
-  }, 1500);
-})
-  .catch(() => {
-    message.textContent = "❌ 登録に失敗しました。もう一度お試しください。";
-    message.className = "error";
-  })
-  .finally(() => {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "登録";
-  });
-});
+  // いままで作った submit + GAS 連携の JS をここに置く
 </script>
 
 </body>
