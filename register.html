@@ -77,36 +77,28 @@
       color: red;
     }
     
-    .checkbox-group {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px 16px;
-  margin-top: 5px;
-}
-
-.checkbox-group label {
-  font-weight: normal;
-  cursor: pointer;
-}
-
 .checkbox-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px 20px;
   margin-top: 8px;
 }
 
 .checkbox-item {
   display: flex;
-  align-items: center;   /* ← 縦位置を中央揃え */
-  gap: 8px;              /* ← □と文字の間隔 */
-  font-size: 14px;
-  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;   /* ★ 日本語を改行させない */
+}
+
+.checkbox-item span {
+  white-space: nowrap;   /* ★ 文字が縦に割れるのを防止 */
 }
 
 .checkbox-item input[type="checkbox"] {
-  margin: 0;             /* ← ブラウザ標準のズレ防止 */
+  margin: 0;
 }
+
 
   </style>
 </head>
