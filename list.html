@@ -53,8 +53,11 @@ fetch(GAS_URL)
         <td>${item.license || ""}</td>
         <td>${item.experience !== undefined && item.experience !== null ? item.experience : ""}</td>
         <td>${item.phone}</td>
-        <td>${item.email}</td>
-
+        <td>
+          <a href="mailto:${item.email}">
+            ${item.email}
+          </a>
+        </td>
       `;
       tbody.appendChild(tr);
     });
