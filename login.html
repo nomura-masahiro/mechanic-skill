@@ -11,6 +11,7 @@
 <div>
   <input type="email" id="loginEmail" placeholder="メールアドレス">
 </div>
+
 <div>
   <input type="password" id="loginPassword" placeholder="パスワード">
 </div>
@@ -21,7 +22,8 @@
 
 <br><br>
 
-<button type="button" onclick="location.href='signup.html'or:red;"></p>
+<button type="button" onclick="location.href='signup -->
+<p id="error" style="color:red;"></p>
 
 <script>
 const GAS_URL =
@@ -54,7 +56,6 @@ function login() {
       return;
     }
 
-    // ✅ ログイン後の分岐
     if (result.skillId) {
       location.href = `register.html?id=${result.skillId}`;
     } else {
@@ -69,4 +70,3 @@ function login() {
 
 </body>
 </html>
-
