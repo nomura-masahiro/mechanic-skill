@@ -43,33 +43,34 @@ document.getElementById("signupBtn").addEventListener("click", () => {
     return;
   }
 
-  fetch(GAS_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      mode: "signup",
-      email: email,
-      password: password
-    })
-  })
-  .then(res => res.text())
-  .then(result => {
-    if (result === "DUPLICATE_USER") {
-      message.textContent = "このメールアドレスはすでに登録されています";
-      return;
-    }
-
-    if (result === "OK") {
-      alert("ユーザー登録が完了しました。ログインしてください。");
-      location.href = "login.html";
-    } else {
-      message.textContent = "登録に失敗しました";
-    }
-  })
-  .catch(() => {
-    message.textContent = "通信エラーが発生しました";
+  const params = new URLSearchParams({
+    mode: "signup",
+    email: email,
+    password: password
   });
+
+  fetch(`${GAS_URL}?${params.toString()}`)
+    .then(res => res.text())
+    .then(text => {
+      if (text === "DUPLICATE_USER") {
+        message.textContent = "このメールアドレスはすでに登録されています";
+        return;
+      }
+
+      if (text === "OK") {
+        alert("ユーザー登録が完了しました。ログインしてください。");
+        location.href = "login.html";
+        return;
+      }
+
+      message.textContent = "登録に失敗しました";
+    })
+    .catch(() => {
+      message.textContent = "通信エラーが発生しました";
+    });
 });
 </script>
 
 </body>
 </html>
+``
