@@ -69,7 +69,9 @@ function loadList() {
           <td>${item.experience ?? ""}</td>
           <td>${item.phone}</td>
           <td>
-            mailto:${item.email}${item.email}</a>
+            <a href="mailto:${item.email}">
+              ${item.email}
+            </a>
           </td>
           <td>
             <button onclick="editSkill('${item.id}')">編集</button>
