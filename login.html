@@ -12,21 +12,26 @@
 <br>
 <input type="password" id="loginPassword" placeholder="パスワード">
 <br><br>
+
 <button onclick="login()">ログイン</button>
 
 <br><br>
-<button onclick="location.href='signup.html'e="color:red;"></p>
+
+<!-- ✅ ここが不足していました -->
+<button onclick="location.href='signup.html'or" style="color:red;"></p>
 
 <script>
-const GAS_URL = "あなたのGASのexec URL";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzsq6z295DQwLoei5M_EfbDtW2NExWsVvwGTKIE6MgcAXYhRsxmDLvN4I47hlrzyXKp/exec";
 
 function login() {
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value.trim();
+  const error = document.getElementById("error");
+
+  error.textContent = "";
 
   if (!email || !password) {
-    document.getElementById("error").textContent =
-      "メールアドレスとパスワードを入力してください";
+    error.textContent = "メールアドレスとパスワードを入力してください";
     return;
   }
 
@@ -34,38 +39,18 @@ function login() {
     method: "POST",
     body: JSON.stringify({
       mode: "login",
-      email: email,
-      password: password
+      email,
+      password
     })
   })
   .then(res => res.json())
   .then(result => {
-
-    /* =========================
-       ✅ ⑥ ログイン後の分岐（ここ）
-       ========================= */
-
     if (!result.ok) {
-      document.getElementById("error").textContent =
-        "ログインIDまたはパスワードが違います";
+      error.textContent = "ログインIDまたはパスワードが違います";
       return;
     }
 
-    // 🔵 スキル登録済みの人
+    // ✅ ログイン後の分岐
     if (result.skillId) {
       location.href = `register.html?id=${result.skillId}`;
-    }
-    // 🔵 まだスキル未登録の人
-    else {
-      location.href = "register.html";
-    }
-  })
-  .catch(() => {
-    document.getElementById("error").textContent =
-      "通信エラーが発生しました";
-  });
-}
-</script>
-
-</body>
-</html>
+    } else {
