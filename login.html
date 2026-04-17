@@ -8,20 +8,26 @@
 
 <h2>ログイン</h2>
 
-<input type="email" id="loginEmail" placeholder="メールアドレス">
+<div>
+  <input type="email" id="loginEmail" placeholder="メールアドレス">
+</div>
+<div>
+  <input type="password" id="loginPassword" placeholder="パスワード">
+</div>
+
 <br>
-<input type="password" id="loginPassword" placeholder="パスワード">
+
+<!-- ✅ type="button" が超重要 -->
+<button type="button" onclick="login()">ログイン</button>
+
 <br><br>
 
-<button onclick="login()">ログイン</button>
-
-<br><br>
-
-<!-- ✅ ここが不足していました -->
-<button onclick="location.href='signup.html'or" style="color:red;"></p>
+<!-- ✅ ここが無かった -->
+<button type="button" onclick="location.href='signup.html'or:red;"></p>
 
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzsq6z295DQwLoei5M_EfbDtW2NExWsVvwGTKIE6MgcAXYhRsxmDLvN4I47hlrzyXKp/exec";
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbzsq6z295DQwLoei5M_EfbDtW2NExWsVvwGTKIE6MgcAXYhRsxmDLvN4I47hlrzyXKp/exec";
 
 function login() {
   const email = document.getElementById("loginEmail").value.trim();
@@ -39,8 +45,8 @@ function login() {
     method: "POST",
     body: JSON.stringify({
       mode: "login",
-      email,
-      password
+      email: email,
+      password: password
     })
   })
   .then(res => res.json())
@@ -54,3 +60,14 @@ function login() {
     if (result.skillId) {
       location.href = `register.html?id=${result.skillId}`;
     } else {
+      location.href = "register.html";
+    }
+  })
+  .catch(() => {
+    error.textContent = "通信エラーが発生しました";
+  });
+}
+</script>
+
+</body>
+</html>
