@@ -18,54 +18,61 @@
 
 <br>
 
-<button type="button" onclick="login()">ログイン</button>
+<!-- onclick は使わない -->
+<button type="button" id="loginBtn">ログイン</button>
 
 <br><br>
 
-<button type="button" onclick="location.href='signup -->
-<p id="error" style="color:red;"></p>
+<button type="button" onclick="location.href='signup.html'p id="error" style="color:red;"></p>
 
 <script>
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbzsq6z295DQwLoei5M_EfbDtW2NExWsVvwGTKIE6MgcAXYhRsxmDLvN4I47hlrzyXKp/exec";
 
-function login() {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loginBtn = document.getElementById("loginBtn");
   const error = document.getElementById("error");
 
-  error.textContent = "";
+  loginBtn.addEventListener("click", () => {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
 
-  if (!email || !password) {
-    error.textContent = "メールアドレスとパスワードを入力してください";
-    return;
-  }
+    error.textContent = "";
 
-  fetch(GAS_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      mode: "login",
-      email: email,
-      password: password
-    })
-  })
-  .then(res => res.json())
-  .then(result => {
-    if (!result.ok) {
-      error.textContent = "ログインIDまたはパスワードが違います";
+    if (!email || !password) {
+      error.textContent = "メールアドレスとパスワードを入力してください";
       return;
     }
 
-    if (result.skillId) {
-      location.href = `register.html?id=${result.skillId}`;
-    } else {
-      location.href = "register.html";
-    }
-  })
-  .catch(() => {
-    error.textContent = "通信エラーが発生しました";
+    fetch(GAS_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        mode: "login",
+        email: email,
+        password: password
+      })
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (!result.ok) {
+        error.textContent = "ログインIDまたはパスワードが違います";
+        return;
+      }
+
+      // 🔽 ログイン後の分岐
+      if (result.skillId) {
+        location.href = `register.html?id=${result.skillId}`;
+      } else {
+        location.href = "register.html";
+      }
+    })
+    .catch(() => {
+      error.textContent = "通信エラーが発生しました";
+    });
   });
-}
+
+});
 </script>
 
 </body>
